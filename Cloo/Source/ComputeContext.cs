@@ -124,6 +124,7 @@ namespace Cloo
                 this.devices = GetDevices();
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -151,6 +152,7 @@ namespace Cloo
                 this.devices = GetDevices();
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -189,6 +191,8 @@ namespace Cloo
                 CL10.ReleaseContext(Handle);
                 Handle = IntPtr.Zero;
             }
+            resourceTable.Remove(GetHashCode());
+            GC.SuppressFinalize(this);
         }
 
         #endregion

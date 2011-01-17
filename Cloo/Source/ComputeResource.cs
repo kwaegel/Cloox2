@@ -40,6 +40,12 @@ namespace Cloo
     /// <seealso cref="ComputeObject"/>
     public abstract class ComputeResource : ComputeObject, IDisposable
     {
+        #region Fields
+
+        protected static readonly System.Collections.Hashtable resourceTable = new System.Collections.Hashtable();
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -49,6 +55,25 @@ namespace Cloo
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        #endregion
+
+        #region Public static methods
+
+        /// <summary>
+        /// Dispose of all ComputeResources that have not already been removed.
+        /// 
+        /// This is a workaround for a bug with OpenGL/OpenCL automatic garbage collection.
+        /// </summary>
+        public static void DisposeAll()
+        {
+            System.Collections.ArrayList values = new System.Collections.ArrayList(resourceTable.Values);
+            for (int i = 0; i < values.Count; i++)
+            {
+                ComputeResource resource = (ComputeResource)values[i];
+                resource.Dispose();
+            }
         }
 
         #endregion

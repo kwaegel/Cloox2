@@ -90,6 +90,7 @@ namespace Cloo
                 tracker = new Dictionary<int, ComputeResource>();
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -109,6 +110,7 @@ namespace Cloo
                 tracker = new Dictionary<int, ComputeResource>();
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -330,6 +332,8 @@ namespace Cloo
                 CL10.ReleaseKernel(Handle);
                 Handle = IntPtr.Zero;
             }
+            resourceTable.Remove(GetHashCode());
+            GC.SuppressFinalize(this);
         }
 
         #endregion

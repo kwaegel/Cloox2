@@ -107,6 +107,7 @@ namespace Cloo
                 events = new List<ComputeEvent>();
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -759,6 +760,9 @@ namespace Cloo
                 CL10.ReleaseCommandQueue(Handle);
                 Handle = IntPtr.Zero;
             }
+
+            resourceTable.Remove(GetHashCode());
+            GC.SuppressFinalize(this);
         }
 
         #endregion

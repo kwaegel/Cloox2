@@ -119,6 +119,7 @@ namespace Cloo
                 this.source = new ReadOnlyCollection<string>(new string[] { source });
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -351,6 +352,8 @@ namespace Cloo
                 CL10.ReleaseProgram(Handle);
                 Handle = IntPtr.Zero;
             }
+            resourceTable.Remove(GetHashCode());
+            GC.SuppressFinalize(this);
         }
 
         #endregion

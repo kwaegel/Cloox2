@@ -82,6 +82,7 @@ namespace Cloo
                 Aborted += new ComputeCommandStatusChanged(ComputeEvent_Fired);
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 

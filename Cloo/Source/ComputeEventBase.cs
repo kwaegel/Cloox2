@@ -186,6 +186,9 @@ namespace Cloo
                 CL10.ReleaseEvent(Handle);
                 Handle = IntPtr.Zero;
             }
+
+            resourceTable.Remove(GetHashCode());
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

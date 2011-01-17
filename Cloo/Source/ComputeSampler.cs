@@ -107,6 +107,7 @@ namespace Cloo
                 this.normalizedCoords = normalizedCoords;
             }
 
+            resourceTable.Add(GetHashCode(), this);
             Trace.WriteLine("Created " + this + " in Thread(" + Thread.CurrentThread.ManagedThreadId + ").");
         }
 
@@ -139,6 +140,7 @@ namespace Cloo
                 CL10.ReleaseSampler(Handle);
                 Handle = IntPtr.Zero;
             }
+            resourceTable.Remove(GetHashCode());
         }
 
         #endregion

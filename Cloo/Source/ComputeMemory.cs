@@ -84,6 +84,9 @@ namespace Cloo
         {
             this.context = context;
             this.flags = flags;
+
+            // Add to GC table.
+            resourceTable.Add(GetHashCode(), this);
         }
 
         #endregion
@@ -102,6 +105,8 @@ namespace Cloo
                 CL10.ReleaseMemObject(Handle);
                 Handle = IntPtr.Zero;
             }
+            resourceTable.Remove(GetHashCode());
+            GC.SuppressFinalize(this);
         }
 
         #endregion
